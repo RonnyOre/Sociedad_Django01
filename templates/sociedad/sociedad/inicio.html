@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Sociedades
+{% endblock titulo %}
+
+{% block contenido %}
+    <h1>Sociedades</h1>
+    
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Razón Social</th>
+                    <th>Nombre Comercial</th>
+                    <th>Dirección Legal</th>
+                    <th>Ubigeo</th>
+                    <th>Estado SUNAT</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sociedad in sociedades %}
+                <tr>
+                    <td>{{ sociedad.razon_social }}</td>
+                    <td>{{ sociedad.nombre_comercial }}</td>
+                    <td>{{ sociedad.direccion_legal }}</td>
+                    <td>{{ sociedad.ubigeo }}</td>
+                    <td>{{ sociedad.get_estado_sunat_display }}</td>
+                    <td>
+                        <a href="{% url 'sociedad_app:sociedad_actualizar' sociedad.id %}">Actualizar</a>
+                        <a href="#">Dar Baja</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+{% endblock contenido %}
