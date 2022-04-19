@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from applications.sociedad.models import Sociedad, Documento, TipoRepresentanteLegal
+from applications.sociedad.models import Sociedad, Documento, TipoRepresentanteLegal, RepresentanteLegal
 
 # Register your models here.
 
@@ -51,6 +51,26 @@ class TipoRepresentanteLegalAdmin(admin.ModelAdmin):
         obj.updated_by = request.user
         super().save_model(request, obj, form, change)
 
+class RepresentanteLegalAdmin(admin.ModelAdmin):
+    '''Admin View for TipoRepresentanteLegal'''
+
+    list_display = (
+        'usuario',
+        'sociedad',
+        'tipo_representante_legal',
+        'fecha_registro',
+        'fecha_baja',
+        'estado',
+
+        )
+
+    def save_model(self, request, obj, form, change):
+        if obj.created_by == None:
+            obj.created_by = request.user
+        obj.updated_by = request.user
+        super().save_model(request, obj, form, change)
+
 admin.site.register(Sociedad, SociedadAdmin)
 admin.site.register(Documento, DocumentoAdmin)
 admin.site.register(TipoRepresentanteLegal, TipoRepresentanteLegalAdmin)
+admin.site.register(RepresentanteLegal, RepresentanteLegalAdmin)

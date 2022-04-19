@@ -114,5 +114,5 @@ class RepresentanteLegal(models.Model):
         verbose_name_plural = 'Representantes Legales'
 
     def __str__(self):
-        return self.tipo_representante_legal
+        return str(self.tipo_representante_legal)
 
