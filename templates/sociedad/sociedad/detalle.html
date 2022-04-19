@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Documentos
+{% endblock titulo %}
+
+{% block contenido %}
+    <h1>Documentos <a href="{% url 'sociedad_app:documento_registrar' sociedad.id %}"><span class="badge bg-primary">Registrar Documento</span></a> 
+        <a href="{% url 'sociedad_app:sociedad_inicio' %}"><span class="badge bg-primary">Regresar</span></a></h1>
+    
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre de documento</th>
+                    <th>Descripción del documento</th>
+                    <th>Documento</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for documento in documentos %}
+                <tr>
+                    <td>{{ documento.nombre_documento }}</td>
+                    <td>{{ documento.descripcion_documento }}</td>
+                    <td class="text-center"><a href="{{ MEDIA_URL }}{{ documento.documento }}">Ver Imagen</a></td>
+                    <td>
+                        <a href="{% url 'sociedad_app:documento_eliminar' documento.id %}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h1>Representantes <a href="{% url 'sociedad_app:representante_registrar' sociedad.id %}"><span class="badge bg-primary">Registrar Representante</span></a> 
+        <a href="{% url 'sociedad_app:sociedad_inicio' %}"><span class="badge bg-primary">Regresar</span></a></h1>
+    
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Tipo Representante Legal</th>
+                    <th>Fecha Registro</th>
+                    <th>Estado</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for representante in representantes %}
+                <tr>
+                    <td>{{ representante.usuario }}</td>
+                    <td>{{ representante.tipo_representante_legal }}</td>
+                    <td>{{ representante.fecha_registro|date:'d/m/Y'}}</td>
+                    <td>{{ representante.get_estado_display}}</td>
+
+                    <td>
+                        {% if representante.estado == 1 %}
+                        <a href="{% url 'sociedad_app:representante_baja' representante.id %}">Dar Baja</a>
+                        {% elif representante.estado == 2 %}
+                        <a href="">Dar Baja</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock contenido %}

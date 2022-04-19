@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Registrar nuevo representante
+{% endblock titulo %}
+
+{% block contenido %}
+    <h1>Registrar nuevo representante</h1>
+    
+    <form action="" enctype= "multipart/form-data" method="post" >{% csrf_token %} 
+        {{ form.as_p }}
+        <input class="btn btn-primary mb-5" type="submit" value="{{ accion }}">
+        <a class="btn btn-danger mb-5" href="{{ previous }}">Cancelar</a>
+    </form>
+    
+{% endblock contenido %}

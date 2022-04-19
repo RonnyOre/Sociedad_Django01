@@ -29,7 +29,14 @@
                     <td>{{ sociedad.get_estado_sunat_display }}</td>
                     <td>
                         <a href="{% url 'sociedad_app:sociedad_actualizar' sociedad.id %}">Actualizar</a>
-                        <a href="#">Dar Baja</a>
+                        {% if sociedad.estado_sunat == 1 %}
+                            <a href="{% url 'sociedad_app:sociedad_baja' sociedad.id %}">Dar de Baja</a>
+                            <a href="">Dar de Alta</a>
+                        {% elif sociedad.estado_sunat == 2 %}
+                            <a href="">Dar de Baja</a>
+                            <a href="{% url 'sociedad_app:sociedad_alta' sociedad.id %}">Dar de Alta</a>
+                        {% endif %}
+                        <a href="{% url 'sociedad_app:sociedad_detalle' sociedad.id %}">Detalle</a>
                     </td>
                 </tr>
                 {% endfor %}
