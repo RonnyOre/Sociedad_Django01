@@ -1,3 +1,4 @@
+from datetime import date
 from django.shortcuts import render
 from django.urls.base import reverse_lazy
 from .forms import SociedadForm, EstadoSunatForm, DocumentoForm, RepresentanteLegalForm, EstadoForm
@@ -120,6 +121,11 @@ class RepresentanteCreateView(CreateView):
     def form_valid(self, form):
         form.instance.sociedad = Sociedad.objects.get(id = self.kwargs['sociedad_id'])
         obj = form.save(commit=False)
+
+        if obj.fecha_registro > date.today():
+            form.add_error('fecha_registro', 'La fecha de registro no puede ser mayor a la fecha de hoy.')
+            return super(RepresentanteCreateView, self).form_invalid(form)
+
         obj.estado = 1
         obj.save()
         return super().form_valid(form)
@@ -140,6 +146,11 @@ class RepresentanteUpdateView(UpdateView):
 
     def form_valid(self, form):
         obj = form.save(commit=False)
+
+        if obj.fecha_baja < obj.fecha_registro:
+            form.add_error('fecha_baja', 'La fecha de baja no puede ser menor a la fecha de registro.')
+            return super(RepresentanteUpdateView, self).form_invalid(form)   
+
         obj.estado = 2
         obj.save()
         return super().form_valid(form)
